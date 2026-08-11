@@ -2,6 +2,7 @@ let angle = 0;
 
 // ★音楽用の変数
 let bgm;
+let isBgmPlay = false;
 
 // ジャンプに関する状態管理変数（少年用）
 let isJumping = false;
@@ -13,11 +14,11 @@ const maxHeadBounce = 12;
 let maxArmLift; 
 
 // 草のトス用変数
-const maxGrassThrow = 45; 
+const maxGrassThrow = 150; 
 let currentGrassThrowHeight = 0;
 
 // ジャンプに関する状態管理変数（子犬用）
-const maxPuppyJumpHeight = 40; 
+const maxPuppyJumpHeight = 80; 
 const maxPuppyLegSpread = 8;   
 const maxPuppyHeadBounce = 6;  
 
@@ -162,7 +163,16 @@ function draw() {
 
   pop(); // 子犬のグループ終了
 
-  angle += 0.03;
+  // ==========================================
+  // 地面の描画グループ
+  // ==========================================
+  push();
+  translate(0,90,0);
+  fill(100,220,150);
+  cylinder(150,1);
+  pop();
+
+  angle += 0.02;
 }
 
 // クリックされた時の処理
@@ -177,7 +187,10 @@ function touchStarted(){
 }
 
 function handleInteraction(){
-  bgm.play();
+  if (!isBgmPlay){
+    isBgmPlay = true;
+    bgm.play();
+  } 
 
   // ジャンプの処理
   if (!isJumping) {
